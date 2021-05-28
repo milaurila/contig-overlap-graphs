@@ -1,1 +1,2 @@
-*.dat       # Data files
+# Data files
+*.dat
