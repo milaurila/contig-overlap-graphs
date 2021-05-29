@@ -33,3 +33,11 @@ since we would grab a million consecutive lines.
 
 Wrote a script with this strategy that gets a million lines in about 3 seconds (wall time).
 Not satisfied with the non-randomness of this.
+
+### 2021-05-29
+
+#### Getting sample data
+
+Discovered the Unix "shuf" command which grabs *N* random lines from a file.
+We get *N*=1,000,000 random lines in about 14 seconds. The sample file generated
+from this will be used for tests.
