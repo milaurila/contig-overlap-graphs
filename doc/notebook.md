@@ -41,3 +41,10 @@ Not satisfied with the non-randomness of this.
 Discovered the Unix "shuf" command which grabs *N* random lines from a file.
 We get *N*=1,000,000 random lines in about 14 seconds. The sample file generated
 from this will be used for tests.
+
+#### Cleaning data
+
+Looking into cleaning the data, "reducing the graph", by discarding
+contig pairs where one or both of the overlaps spans the whole contig length.
+Not yet sure how to make sure that no contig is "unjustly" lost in this process.
+Might return to this later.
