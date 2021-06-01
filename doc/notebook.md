@@ -48,3 +48,58 @@ Looking into cleaning the data, "reducing the graph", by discarding
 contig pairs where one or both of the overlaps spans the whole contig length.
 Not yet sure how to make sure that no contig is "unjustly" lost in this process.
 Might return to this later.
+
+### 2021-06-01
+
+#### Preparing the data
+
+Since we are only interested in the contig identifiers and their relationships,
+not the overlap information etc., we have to extract the relevant information
+from the contig data file. The three scripts below prepares the data for
+future analysis.
+
+* get_id_columns.sh
+
+Extract the first two columns, containing the contig identifiers, and
+put them in a new file.
+
+* get_unique_ids.sh
+
+Extract the unique identifiers and put them in a new file. This will be used in
+the translation of the string identifiers to integers.
+
+* reorder_edges.sh
+
+Puts the smallest (integer) ID in the first column and sorts the pairs based
+on this. The algorithm(s) for solving the computational problem (mainly
+constructing a graph) has not been considered yet so this step might be
+superfluous. It feels good to have the option to do this at the moment.
+
+
+#### Translating the contig identifiers to integers
+
+As hinted in the project statement, using the string format of the identifiers
+is a waste of space. A small java program "translates" these strings to unique
+integers.
+
+* Translate.java
+
+Reads the output file from `get_unique_ids.sh` and pairs each string ID with
+an integer in a hash map. Then reads the output file from `get_id_columns.sh`,
+looks up the string ID in the hash table and outputs it's integer.
+
+* translate_edges.sh
+
+Handles the input and output files to `Translate.java`.
+
+#### Flowchart
+
+Times for sample file of one million pairs.
+
+1. `get_id_columns.sh < contigs.dat > ids.dat`    0.4 seconds
+2. `get_unique_ids.sh < ids.dat > unique_ids.dat`   12.7 seconds
+3. `translate_edges.sh < unique_ids.dat & ids.dat > translated_edges.dat`     5.5 seconds
+4. `reorder_edges.sh < translated_edges.dat > reordered_translated_edges.dat`   1.1 seconds
+
+When all put together in the future the intermediate files should be deleted
+after use.
