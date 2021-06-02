@@ -157,3 +157,6 @@ have constant time complexity this should beat the previous tactic by quite a
 bit.
 
 Will look into this next.
+
+P.S. Maybe the unique ID grabbing can be used to get the vertex set size from
+random data samples and aid in exploring the time complexity.
