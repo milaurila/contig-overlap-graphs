@@ -103,3 +103,56 @@ Times for sample file of one million pairs.
 
 When all put together in the future the intermediate files should be deleted
 after use.
+
+### 2021-06-02
+
+#### Constructing the graph
+
+Since the graph is already implicitly defined by the contigs data set, our
+explicit ditto can be made rather simple, i.e. without any methods to
+manipulate the graph (add or remove vertices for example).
+
+The number of verticies and edges is 11393435 and 64056772 respectively which
+means that the graph is sparse. An adjacency-list representation is used
+because of this, an adjacency-matrix would use too much space.
+
+Because the size of the vertex set is already known we can use an array to
+store the vertices. If this was not the case we would probably use a hash table
+which is dynamic. With an array we get rid of the need to compute hashes on
+vertex look-ups.
+
+Each vertex object is given a neighbour attribute in the form of an ArrayList.
+As we don't know the neighbourhood of the vertices this data structure must be
+dynamic. It might be beneficial to use a linked list instead, since I suspect
+that we'll be inserting elements at the end of the list more often than
+grabbing them by index (for example). The ArrayList is convenient however,
+might revisit the topic if time allows (or disallows because of high time
+complexity).
+Main concern stems from not yet knowing the node degree
+distribution, if it's high that means that the ArrayList will have to resize
+and copy the underlying array more often than not.
+
+`Graph.java` takes the number of vertices and the edge set (the "translated"
+contigs file) and constructs a graph from them. This should be of time
+complexity *O*(|_V_|+ |_E_|).
+
+#### Calculating node degree distribution
+
+With the graph constructed this task is rather straight forward. The ArrayList
+`size()` method gives an easy way to get the degree of each node.
+
+We create a hashmap with the sizes as keys and tally the number of vertices
+who has that amount of neighbours. Should be of time complexity *O*(|_V_|).
+
+#### Translating the contig identifiers to integers (shamefully re-visitied)
+
+As mentioned in yesterdays entry (2021-06-01) the translation is preceded by
+an extraction of the unique identifiers. This uses the Unix `sort` command
+which employs the merge sort algorithm with worst-case performance
+*O*(_n_ lg _n_). The thought was to eliminate unnecessary look-ups.
+We can however probably write a pure Java implementation of the translation
+using a hashmap that scans the entire edge set. Since the hashmap operations
+have constant time complexity this should beat the previous tactic by quite a
+bit.
+
+Will look into this next.
