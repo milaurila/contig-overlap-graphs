@@ -141,8 +141,9 @@ complexity *O*(|_V_|+ |_E_|).
 With the graph constructed this task is rather straight forward. The ArrayList
 `size()` method gives an easy way to get the degree of each node.
 
-We create a hashmap with the sizes as keys and tally the number of vertices
-who has that amount of neighbours. Should be of time complexity *O*(|_V_|).
+`NodeDegreeDistribution.java` creates a hashmap with the sizes as keys and
+tallies the number of vertices who has that amount of neighbours.
+Should be of time complexity *O*(|_V_|).
 
 #### Translating the contig identifiers to integers (shamefully re-visitied)
 
