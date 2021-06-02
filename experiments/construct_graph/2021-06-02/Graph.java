@@ -6,9 +6,23 @@ import java.util.Scanner;
 
 public class Graph {
     Vertex[] graphArray;
+    int size;
 
-    public Graph(int size) {
+    public Graph(int size, File edgeSet) throws FileNotFoundException {
         graphArray = new Vertex[size];
+        this.size = size;
+
+        for (int i = 0; i < size; i++) {
+            graphArray[i] = new Vertex(i);
+        }
+
+        Scanner sc = new Scanner(edgeSet);
+        while (sc.hasNext()) {
+            int idOne = sc.nextInt();
+            int idTwo = sc.nextInt();
+            graphArray[idOne].neighbours.add(graphArray[idTwo]);
+            graphArray[idTwo].neighbours.add(graphArray[idOne]);
+        }
     }
 
     static class Vertex {
@@ -18,21 +32,6 @@ public class Graph {
 
         public Vertex(int id) {
             this.id = id;
-        }
-    }
-
-    public static void main(String[] args) throws FileNotFoundException {
-        int size = Integer.parseInt(args[0]);
-        Graph graph = new Graph(size);
-        for (int i = 0; i < graph.graphArray.length; i++) {
-            graph.graphArray[i] = new Vertex(i);
-        }
-        Scanner sc = new Scanner(new File(args[1]));
-        while (sc.hasNext()) {
-            int idOne = sc.nextInt();
-            int idTwo = sc.nextInt();
-            graph.graphArray[idOne].neighbours.add(graph.graphArray[idTwo]);
-            graph.graphArray[idTwo].neighbours.add(graph.graphArray[idOne]);
         }
     }
 }
