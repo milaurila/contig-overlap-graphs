@@ -1,27 +1,23 @@
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 public class Graph {
-    Vertex[] graphArray;
+    Vertex[] adjArray;
     int size;
 
-    public Graph(int size, File edgeSet) throws FileNotFoundException {
-        graphArray = new Vertex[size];
+    public Graph(int size, Scanner edgeSet) {
+        adjArray = new Vertex[size];
         this.size = size;
 
         for (int i = 0; i < size; i++) {
-            graphArray[i] = new Vertex(i);
+            adjArray[i] = new Vertex(i);
         }
 
-        Scanner sc = new Scanner(edgeSet);
-        while (sc.hasNext()) {
-            int idOne = sc.nextInt();
-            int idTwo = sc.nextInt();
-            graphArray[idOne].neighbours.add(graphArray[idTwo]);
-            graphArray[idTwo].neighbours.add(graphArray[idOne]);
+        while (edgeSet.hasNext()) {
+            int idOne = edgeSet.nextInt();
+            int idTwo = edgeSet.nextInt();
+            adjArray[idOne].neighbours.add(adjArray[idTwo]);
+            adjArray[idTwo].neighbours.add(adjArray[idOne]);
         }
     }
 
