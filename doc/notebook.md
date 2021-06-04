@@ -160,3 +160,39 @@ Will look into this next.
 
 P.S. Maybe the unique ID grabbing can be used to get the vertex set size from
 random data samples and aid in exploring the time complexity.
+
+### 2021-06-03
+
+#### Speeding up the translation
+
+Java hashmap implementation as proposed yesterday runs about three times faster
+than the previous algorithm (from about 14 + 4 to 6 minutes on the entire edge
+set). Sweet!
+
+The graph constructor program needs the number of unique identifiers to create
+the adjacency-array. With the new translation this information is lost in
+the pipeline and must be hardcoded somewhere (problably in a driver script).
+
+Hopefully we can make the assumption that the biologists provide us with the
+number of unique contigs whenever they want us to analyze a graph for them.
+
+#### Finding components
+
+Wrote a first draft of an algorithm to find and count the number of components
+and their size distribution based on Lars's presentation of
+applications of depth-first-search in the lecture 12 discussion.
+
+If the implementation is correct, it works well for test sets of somewhere
+between 250,000 and 500,000 random edges. For our sample file of a million
+pairs it runs into a stack overflow, maybe because of to deep a recursion,
+maybe because it is poorly written, maybe they're not mutually exclusive.
+
+Back to the drawing board.
+
+
+
+
+
+
+
+
