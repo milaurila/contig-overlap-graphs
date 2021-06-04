@@ -9,7 +9,8 @@ public class BFS {
         Queue<Graph.Vertex> queue = new LinkedList<>();
         components = new ArrayList<>();
 
-        for (Graph.Vertex vertex : graph.graphArray) {
+        // Loop over all vertices to not get stuck in component.
+        for (Graph.Vertex vertex : graph.adjArray) {
             if (!vertex.visited) {
                 ArrayList<Graph.Vertex> component = new ArrayList<>();
                 queue.add(vertex);
