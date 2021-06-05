@@ -278,7 +278,7 @@ Embarrassingly, there hasn't been time for a proof of correctness of the
 algorithm (I feel like this should _really_ be done). Some easy checks have
 been done.
 
-- [] Proof of correctness.
+- [ ] Proof of correctness.
 - [x] Summing the number of vertices with each degree, for each degree, yields the number of vertices (|_V_|).
 - [x] Summing the number of components with each size, for each size, yields the number of components.
 - [x] Summing the product of each size and the number of components with that size, yields the number of vertices.
