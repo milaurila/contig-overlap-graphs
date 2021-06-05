@@ -189,6 +189,26 @@ maybe because it is poorly written, maybe they're not mutually exclusive.
 
 Back to the drawing board.
 
+### 2021-06-04
+
+Computational problem solved (hopefully) for full, non-reduced graph,
+in 6min 25s with peak RAM usage of around 3.7 GB!
+
+Topics to elaborate on after some sleep..:
+
+#### Using a BFS for component hunting
+
+#### Finding duplicate pairs in edge set
+
+#### ArrayList vs. LinkedList
+
+#### Constructing the pipe
+
+`awk '{ print $1,$2 }' < contigs.dat | java -jar translate.jar |
+awk '{ if ($1<$2) print $1" "$2; else print $2" "$1 }' | sort | uniq | java -jar graphify.jar > result.dat`
+
+#### Controlling results
+
 
 
 
