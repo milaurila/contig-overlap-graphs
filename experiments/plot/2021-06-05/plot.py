@@ -24,8 +24,13 @@ while line:     # Last data set.
     size_freqs.append(int(line[1]))
     line = sys.stdin.readline().split()
 
+comp_outliers = [ (freq, size) for freq, size in zip(size_freqs, comp_sizes)
+                                                                if size > 600 ]
+
 # Plot node degree distribution.
+plt.figure(dpi=1200)
 plt.yscale("log")
+plt.xlim(-15, 2400)
 plt.bar(node_degrees, degree_freqs)
 plt.xlabel("Node degree")
 plt.ylabel("Frequency")
@@ -35,14 +40,16 @@ plt.savefig("ndd_plot.png")
 plt.clf()
 
 # Plot component size distribution.
-#plt.yscale("log")
-plt.xscale("log")
+plt.figure(dpi=1200)
+plt.yscale("log")
 plt.bar(comp_sizes, size_freqs)
+plt.xlim(-2, 600)
 plt.xlabel("Component size")
 plt.ylabel("Frequency")
-plt.text(1000, 200000, f'Number of components: {num_of_components}')
+plt.text(200, 10000, f'Number of components: {num_of_components} \n\n'
+        f'Outliers, size > 600, (freq, size):\n {comp_outliers}')
 plt.title("Component size distribution")
-#plt.title("1 component of size 7,282,226 removed from data")
 plt.savefig("csd_plot.png")
 
-print("Plots of node degree and component size distributions saved to .png files.")
+print(f'Plots of node degree and component size distributions saved to .png '
+        f'files.')
