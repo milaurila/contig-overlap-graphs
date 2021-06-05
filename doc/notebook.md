@@ -4,15 +4,20 @@
 
 #### Directory structure
 
-Created a first, maybe naive, folder structure with some inspiration from [A Quick Guide to Organizing Computational Biology Projects](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424).
+Created a first, maybe naive, folder structure with some inspiration from
+[A Quick Guide to Organizing Computational Biology Projects](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424).
 This structure is very susceptible to change.
 
 * da3018_project
-    * data: the full contigs file resides here. Might be used for samples, cleaned data, intermediate data files...
+    * data: the full contigs file resides here. Might be used for samples,
+    cleaned data, intermediate data files...
     * doc: notebook and report.
     * experiments:
-        *  > The plan is to write and run test code here and push the final solution to a top "script" folder or the like later.
-           > Subdirectories of "experiments" are given descriptive names of the tasks the scripts should accomplish, these are further divided into chronological, dated, folders:
+        *  > The plan is to write and run test code here and push the final
+        solution to a top "script" folder or the like later.
+           > Subdirectories of "experiments" are given descriptive names of the
+           tasks the scripts should accomplish, these are further divided into
+           chronological, dated, folders:
         * go_to_jupiter
             * 2001-02-22
                 * moonolith.sh
@@ -20,18 +25,22 @@ This structure is very susceptible to change.
                 * daisy.sh
     * project_statement: pdf files from Athena on project info.
 
-Letting git ignore all data files (.dat) for the moment; no need to push large amounts of data to the remote repository.
+Letting git ignore all data files (.dat) for the moment; no need to push large
+amounts of data to the remote repository.
 
 #### Getting sample data
 
-To avoid running tests on the full set of contigs we need to grab some sample lines.
+To avoid running tests on the full set of contigs we need to grab some sample
+lines.
 *For the moment "some" means a million.*
 
-An easy way is to head and tail an interval of a million lines on the contigs file.
-If the contigs were added in some systematic fashion this would however not yield a random sample
-since we would grab a million consecutive lines.
+An easy way is to head and tail an interval of a million lines on the contigs
+file.
+If the contigs were added in some systematic fashion this would however not
+yield a random sample since we would grab a million consecutive lines.
 
-Wrote a script with this strategy that gets a million lines in about 3 seconds (wall time).
+Wrote a script with this strategy that gets a million lines in about 3 seconds
+(wall time).
 Not satisfied with the non-randomness of this.
 
 ### 2021-05-29
@@ -191,28 +200,86 @@ Back to the drawing board.
 
 ### 2021-06-04
 
-Computational problem solved (hopefully) for full, non-reduced graph,
+Computational problem solved (hopefully) for full, non-reduced, graph
 in 6min 25s with peak RAM usage of around 3.7 GB!
-
-Topics to elaborate on after some sleep..:
 
 #### Using a BFS for component hunting
 
-#### Finding duplicate pairs in edge set
+We could probably write an iterative implementation of DFS to get around the
+recursion problem. Closer at hand was the BFS presented in lecture 12.
+Lars noted that the search will stop after traversing a component and not reach
+other, disconnected, components. This is because the algorithm performs the
+BFS on a single starting node. If we iterate the BFS over the graph's
+adjacency-array the search yields all the components. (I'll have to examine
+the time complexity between the two algorithms more carefully, even though they
+are in the same family of functions, *O*(|_E_| + |_V_|)).
+
+The BFS does add overhead in form of the Queue (LinkedList).
+
+#### Finding duplicate pairs in the edge set
+
+Good thing I remembered to check for this.
+
+The following pipeline reorders the edges by size (smallest first), sorts them
+and then merges duplicates.
+
+`awk '{ if ($1<$2) print $1" "$2; else print $2" "$1 }' | sort | uniq`
+
+The time complexity of `sort` is, allegedly, *O*(_n_ lg _n_). I'll have to
+look up what `uniq` is doing but my guess is that it uses some sort of HashSet
+so that the time complexity is *O*(_n_).
+
 
 #### ArrayList vs. LinkedList
 
-#### Constructing the pipe
+This was a rabbit hole of blog- and forum posts with opinions, benchmarks and
+references to the Java source code. As mentioned in the entry on 2021-06-02
+there are, theoretical, pros and cons to these in different use cases.
+However, the performance of the practical implementations doesn't seem to be
+as clear-cut.
 
-`awk '{ print $1,$2 }' < contigs.dat | java -jar translate.jar |
-awk '{ if ($1<$2) print $1" "$2; else print $2" "$1 }' | sort | uniq | java -jar graphify.jar > result.dat`
+To get a definitive answer for our case of storing the vertices'
+neighbours, and the operations we apply on them, we should simply try both and
+get some numbers. This is _not_ a priority at the moment. (Sticking with
+ArrayList)
 
-#### Controlling results
+#### Constructing the pipeline
 
+When testing the algorithms it was convenient to isolate the transitional
+stages of the data by storing them in files. Reading and writing from/to
+disk (technically flash) is slow and there's really no reason to use these
+intermediate files in the final, total, algorithm (if we want to examine
+the data at different stages we can use the old versions of the programs in the
+`experiments` folder).
 
+For this reason all the programs were re-written to be used in a Unix pipeline.
+This means that their input comes from the console's Standard Out. From start
+to finish, the pipeline below produces the answers to the computational
+problem (this will be put in an executable).
 
+`numOfNodes=11393435; awk '{ print $1,$2 }' < contigs.dat | java -jar translate.jar |
+awk '{ if ($1<$2) print $1" "$2; else print $2" "$1 }' | sort | uniq |
+java -jar graphify.jar $numOfNodes > result.dat`
 
+The contents of `result.dat` are planned to be plotted.
 
+As in _ArrayList vs. LinkedList_ there was a concern for
+the best way to stream stdout into the Java programs. Claims were found that
+a BufferedReader is around ten times faster than a Scanner when inserting
+into an array. The Scanner does however perform a parsing of the input for us
+whereas the BufferedReader does not. Whether it is faster to read the raw bytes
+with a BufferedReader, and then parse them to Integers "manually", compared to
+letting a Scanner do that for us, is unknown to me. Sticking with the Scanner
+out of convenience. (Again, tests would have to be performed.)
 
+#### Controlling the results
 
+Embarrassingly, there hasn't been time for a proof of correctness of the
+algorithm (I feel like this should _really_ be done). Some easy checks have
+been done.
+
+- [] Proof of correctness.
+- [x] Summing the number of vertices with each degree, for each degree, yields the number of vertices (|_V_|).
+- [x] Summing the number of components with each size, for each size, yields the number of components.
+- [x] Summing the product of each size and the number of components with that size, yields the number of vertices.
 
