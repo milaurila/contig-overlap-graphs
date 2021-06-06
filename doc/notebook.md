@@ -283,3 +283,25 @@ been done.
 - [x] Summing the number of components with each size, for each size, yields the number of components.
 - [x] Summing the product of each size and the number of components with that size, yields the number of vertices.
 
+### 2021-06-05
+
+#### Plotting
+
+A rudimentary Python script plots the histogramically collected data in bar
+plots.
+
+Apparently there's a monster in the data, a component of the graph with size
+7,282,226. This really skews the plot of the component size distribution as
+basically all other components have a size under 600 (a handful is slightly
+above). These outliers were collected from the data and added to the plot in
+text.
+
+The Python script can be tacked on to the pipline to produce the plots
+"directly" from the original data file. As it is now, the pipeline produces
+a results file and the plots are produced from this file.
+
+#### Directory structure
+
+Moved final source code and jar files to folders in top directory. Added
+a driver script to root directory.
+
