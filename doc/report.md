@@ -9,6 +9,8 @@ A dictionairy that maps each contig identifier to a graph
 vertex identifier, in the form of an integer, is created. This dictionairy is
 then used to translate the contig pairs to edges of the graph.
 
+Graph components are found using a breadth-first-search.
+
 Adjacency-list representations of the graph and its components yields a
 straight forward way of extracting the node degree- and component size
 distributions, as well as the number of components.
