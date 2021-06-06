@@ -5,6 +5,10 @@ public class Graph {
     Vertex[] adjArray;
     int size;
 
+    /*
+     Input stream: id1 id2
+     size: number of vertices
+     */
     public Graph(int size, Scanner edgeSet) {
         adjArray = new Vertex[size];
         this.size = size;
