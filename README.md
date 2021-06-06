@@ -1,5 +1,8 @@
 # DA3018 VT21 - Project
 
+Final Java source code in `src`, jar files and python plot-script that produced
+the results in `program`, notebook and report in `doc`.
+
 ## Run
 
 With the original data file named `contigs.dat` in the `data` directory, run
@@ -16,8 +19,6 @@ Algorithm wall time (excluding plotting): 6 minutes 25 seconds (on system below)
 
 ![ndd_plot](https://user-images.githubusercontent.com/59459559/120906848-23370a80-c65d-11eb-9db5-afc51bf328ad.png)
 ![csd_plot](https://user-images.githubusercontent.com/59459559/120906843-1fa38380-c65d-11eb-92af-cdc1cefc3107.png)
-
-
 
 ## System
 
