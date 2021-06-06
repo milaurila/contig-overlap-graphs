@@ -8,7 +8,7 @@ public class Graphify {
     awk '{ print $1,$2 }' < contigs.dat | java -jar translate.jar |
     awk '{ if ($1<$2) print $1" "$2; else print $2" "$1 } | sort | uniq
 
-    arg[0]: Size of vertex set.
+    args[0]: Size of vertex set.
 
     Output stream: node degree distribution \n
                    number of components \n
