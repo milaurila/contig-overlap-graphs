@@ -305,3 +305,16 @@ a results file and the plots are produced from this file.
 Moved final source code and jar files to folders in top directory. Added
 a driver script to root directory.
 
+### 2021-06-06
+
+#### Report
+
+- [x] Written.
+
+#### Project
+
+- [x] Submitted.
+
+#### Summer
+
+- [x] Begun
