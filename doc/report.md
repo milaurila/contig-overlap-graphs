@@ -122,5 +122,7 @@ found by the BFS, meaning constant time.
 The distributions are printed from the hash tables that contains them. Our
 findings are plotted below.
 
+![ndd_plot](https://user-images.githubusercontent.com/59459559/120906848-23370a80-c65d-11eb-9db5-afc51bf328ad.png)
+![csd_plot](https://user-images.githubusercontent.com/59459559/120906843-1fa38380-c65d-11eb-92af-cdc1cefc3107.png)
 
-
+_Have a nice summer!_
