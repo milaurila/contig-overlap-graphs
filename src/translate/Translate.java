@@ -5,6 +5,8 @@ public class Translate {
 
     /*
     Input stream: awk '{ print $1,$2 }' < contigs.dat
+
+    Output stream: id1 id2
      */
     public static void main(String[] args) {
         int intID = 0;
