@@ -13,6 +13,9 @@ in terminal.
 
 ## Results
 
+_Program run on full, non-reduced graph. Only duplicate edges have been
+removed from the original data set._
+
 Plain text file `results.dat` in the `results` directory contains output from the program in order: node degree distribution, number of components, component size distribution. Separated by blank line.
 
 Algorithm wall time (excluding plotting): 6 minutes 25 seconds (on system below).
